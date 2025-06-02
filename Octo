@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      background-color: black;
+    }
+    .slide {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: all 1s ease-in-out;
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 1rem;
+      text-align: center;
+    }
+    #slide1 {
+      background-color: black;
+      color: white;
+      z-index: 6;
+    }
+    .candle {
+      width: 20px;
+      height: 80px;
+      background: #fff;
+      position: relative;
+      margin: 20px auto;
+      border-radius: 4px;
+    }
+    .flame {
+      width: 20px;
+      height: 30px;
+      background: radial-gradient(circle, orange 20%, red 60%, transparent 100%);
+      border-radius: 50% 50% 50% 50%;
+      position: absolute;
+      top: -35px;
+      left: 0;
+      animation: flicker 0.2s infinite;
+    }
+    @keyframes flicker {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+    #message1 {
+      font-size: 1.5rem;
+      margin-top: 20px;
+      opacity: 0;
+      transition: opacity 2s;
+    }
+    #nextArrow {
+      font-size: 2rem;
+      margin-top: 20px;
+      cursor: pointer;
+      display: none;
+      animation: bounce 1s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    #slide2 {
+      background-color: red;
+      color: white;
+      z-index: 5;
+    }
+    #messageButton {
+      font-size: 2rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    #slide3 {
+      background-color: pink;
+      color: black;
+      z-index: 4;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.2rem;
+    }
+    #slide4 {
+      background-color: #fff0f0;
+      color: black;
+      z-index: 3;
+      font-size: 1.5rem;
+    }
+    #slide5 {
+      background-color: #87ceeb;
+      z-index: 2;
+      overflow: hidden;
+    }
+    .balloon {
+      width: 40px;
+      height: 55px;
+      background-color: red;
+      border-radius: 50% 50% 50% 50%/60% 60% 40% 40%;
+      position: absolute;
+      bottom: 0;
+      animation: float 6s linear infinite;
+    }
+    .ribbon {
+      width: 2px;
+      height: 20px;
+      background: black;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-110vh); }
+    }
+    .firework {
+      position: absolute;
+      bottom: 0;
+      width: 10px;
+      height: 10px;
+      background: yellow;
+      border-radius: 50%;
+      animation: shoot 2s forwards;
+    }
+    @keyframes shoot {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-50vh); }
+      100% { transform: translateY(-60vh) scale(5); opacity: 0; }
+    }
+    #finalMessage {
+      position: absolute;
+      top: 40%;
+      width: 100%;
+      text-align: center;
+      font-size: 2rem;
+      color: white;
+      padding: 0 1rem;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="slide1" class="slide">
+    <div class="candle">
+      <div class="flame" id="flame"></div>
+    </div>
+    <div id="message1">Happy Birthday Beautiful ❤️</div>
+    <div id="nextArrow">⬇️</div>
+  </div>
+  <div id="slide2" class="slide" style="display:none;">
+    <button id="messageButton">💌</button>
+    <p>Touch it</p>
+  </div>
+  <div id="slide3" class="slide" style="display:none;">
+    From how I met you at that wedding to having you as my inspiration — teaching me to build my name and work hard for success. Just want to say, you mean a lot to me ☺️.
+  </div>
+  <div id="slide4" class="slide" style="display:none;">
+    Again, thank you and have a great life and success ahead.
+  </div>
+  <div id="slide5" class="slide" style="display:none;">
+    <div id="balloonContainer"></div>
+    <div id="finalMessage">Once Again, A Happy Birthday Shreya ❤️</div>
+  </div>  <script>
+    setTimeout(() => {
+      document.getElementById("flame").style.display = "none";
+      document.getElementById("message1").style.opacity = 1;
+      document.getElementById("nextArrow").style.display = "block";
+    }, 3000);
+
+    document.getElementById("nextArrow").addEventListener("click", () => {
+      showSlide("slide2");
+    });
+
+    function showSlide(id) {
+      document.querySelectorAll('.slide').forEach(slide => slide.style.display = 'none');
+      document.getElementById(id).style.display = 'flex';
+    }
+
+    document.getElementById("messageButton").addEventListener("click", () => {
+      showSlide("slide3");
+      setTimeout(() => showSlide("slide4"), 4000);
+      setTimeout(() => {
+        showSlide("slide5");
+        launchBalloons();
+        launchFireworks();
+      }, 8000);
+    });
+
+    function launchBalloons() {
+      const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink", "cyan"];
+      const container = document.getElementById("balloonContainer");
+      for (let i = 0; i < 8; i++) {
+        const b = document.createElement("div");
+        b.className = "balloon";
+        b.style.left = `${i * 12 + 5}%`;
+        b.style.backgroundColor = colors[i % colors.length];
+
+        const ribbon = document.createElement("div");
+        ribbon.className = "ribbon";
+        b.appendChild(ribbon);
+
+        container.appendChild(b);
+      }
+    }
+
+    function launchFireworks() {
+      for (let i = 0; i < 10; i++) {
+        const f = document.createElement("div");
+        f.className = "firework";
+        f.style.left = Math.random() * 90 + "%";
+        f.style.background = "radial-gradient(circle, #ff0, #f00, #00f)";
+        document.getElementById("slide5").appendChild(f);
+      }
+    }
+  </script></body>
+</html>
